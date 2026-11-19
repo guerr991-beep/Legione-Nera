@@ -91,12 +91,12 @@ details label{display:block;margin-top:8px}
 <div id="warn" role="alertdialog" aria-labelledby="wh" aria-describedby="wp">
 <h1 id="wh">ATTENZIONE</h1>
 <p id="wp">Ogni riferimento NON è casuale, scegliendo di proseguire decidi di prenderti tutte le responsabilità di quello che vedrai e concepirai. Rifletti prima che tu possa prendere qualsiasi decisione, se non sei pronto, torna quando riterrai giusto.</p>
-<div class="wb" id="wb"><button class="btn lk" id="wok" aria-disabled="true" aria-label="Sono pronto (bloccato)"><span id="wic"></span><span>SONO PRONTO</span></button><div id="wtm">00:03</div></div>
+<div class="wb" id="wb"><button class="btn lk" id="wok" aria-disabled="true" aria-label="Sono pronto (bloccato)"><span id="wic"></span><span>SONO PRONTO</span></button><div id="wtm">00:20</div></div>
 <div id="imp" aria-live="assertive"><span id="i1">Sei impaziente</span><span id="i2">MI INFASTIDISCI...</span></div>
 </div>
 <script>
 (function(){
-const $=id=>document.getElementById(id),SEC=3;
+const $=id=>document.getElementById(id),SEC=20;
 const LK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2" fill="currentColor" fill-opacity=".15"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>',
 UL='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2" fill="currentColor" fill-opacity=".15"/><path d="M8 11V7a4 4 0 0 1 7.6-1.7"/></svg>';
 const w=$("warn"),ok=$("wok"),tm=$("wtm");$("wic").innerHTML=LK;
@@ -1825,7 +1825,7 @@ const AI_404=["ERROR 404","ERROR 404 - Palanca non trovata.","ERROR 404.\nERRO-\
 const aiWait=ms=>new Promise(r=>setTimeout(r,ms));
 const aiFollow=q=>{const n=q.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim();return n.split(/\s+/).length<=7&&/^(e\b|ma\b|perche|cioe|davvero|spiegati|continua|di piu|poi\b|allora|e quindi|quindi|altro|ancora)/.test(n)};
 function aiTopic(q){const n=q.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
- if(/dark\s*neto|\bneto\b/.test(n))return"neto";if(/\biris\b/.test(n))return"iris";if(/pannocchia/.test(n))return"pannocchia";if(/palanca/.test(n))return"palanca";
+ if(/stella\s*azzurra/.test(n))return"stella";if(/dark\s*neto|\bneto\b/.test(n))return"neto";if(/\biris\b/.test(n))return"iris";if(/pannocchia/.test(n))return"pannocchia";if(/palanca/.test(n))return"palanca";
  if(/mike\s*rich|\bmike\b/.test(n))return"mike";if(/politano/.test(n))return"politano";if(/brassini/.test(n))return"brassini";
  if(/ghia\w*forte/.test(n))return"ghiaforte";if(/angelo|uriel/.test(n))return"angelo";if(/legione|legionari/.test(n))return"legione";if(/furbolandia/.test(n))return"furbolandia";if(/villinia/.test(n))return"villinia";return""}
 let aiNB=null;
@@ -1911,9 +1911,10 @@ function aiLocal(q,tp,foll){
   else a=aiPk(AI_FALL)}
  return a}
 async function aiAsk(q){q=(q||"").trim();if(!q||aiR.busy||st!="ai")return;aiR.busy=true;aiR.asked=(aiR.asked||0)+1;aiR.think=1;$("aiq").textContent="\u203a "+q;aiSet("");$("aisend").disabled=true;$("aiin").value="";
- let tp=aiTopic(q);const prev=aiR.cur||"",foll=!tp&&!!prev&&!/^(iris|palanca|pannocchia|neto)$/.test(prev)&&aiFollow(q);if(foll)tp=prev;aiR.cur=tp;if(tp=="legione"||tp=="mike")aiBulbPop();aiR.mood=(tp=="palanca"||tp=="pannocchia")?"err":(tp=="mike"?"fear":"");aiR.moodT=7;
+ let tp=aiTopic(q);const prev=aiR.cur||"",foll=!tp&&!!prev&&!/^(iris|palanca|pannocchia|neto|stella)$/.test(prev)&&aiFollow(q);if(foll)tp=prev;aiR.cur=tp;if(tp=="legione"||tp=="mike")aiBulbPop();aiR.mood=(tp=="palanca"||tp=="pannocchia")?"err":(tp=="mike"?"fear":"");aiR.moodT=7;
  const fb=()=>AI_FALL[Math.floor(Math.random()*AI_FALL.length)];let ans="";
- if(tp=="neto"){await aiWait(500);ans="Oscuro...Ma Roberto avr\u00e0 la stoffa per rispettare ci\u00f2 che l'oscurit\u00e0 stessa pretende?";aiR.turns.push({role:"user",content:q},{role:"assistant",content:ans})}
+ if(tp=="stella"){await aiWait(500);ans="Il cielo stellato...Una promessa del calcio...Ma quanto avr\u00e0 di azzurro prima che venga macchiato di nero pece?";aiR.turns.push({role:"user",content:q},{role:"assistant",content:ans})}
+  else if(tp=="neto"){await aiWait(500);ans="Oscuro...Ma Roberto avr\u00e0 la stoffa per rispettare ci\u00f2 che l'oscurit\u00e0 stessa pretende?";aiR.turns.push({role:"user",content:q},{role:"assistant",content:ans})}
   else if(tp=="iris"){await aiWait(500);ans="Allish li pilish";aiR.turns.push({role:"user",content:q},{role:"assistant",content:ans})}
  else if(tp=="palanca"){await aiWait(450);ans=AI_404[Math.floor(Math.random()*AI_404.length)];aiR.turns.push({role:"user",content:q},{role:"assistant",content:ans})}
  else{const sample=await aiGetSample();
